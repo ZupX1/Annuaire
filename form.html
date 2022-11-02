@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <title>Document</title>
+</head>
+    <body id="cont">
+      <nav class="ong">
+        <div class="onglets">
+          <a href="index.html">Accueil</a>
+          <a href="commande.php">Commander</a>
+          <a href="gestion.php">Voir les inscriptions</a>
+          <a href="add.php">Ajouter/Supprimer des produits</a>
+        </div>
+      </nav>
+        <div class="container">
+          <form method="post" action="form.php">
+            <label for="name">Nom</label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              placeholder="Nom..."
+            />
+    
+            <div class="hide col" id="name">
+              Veuillez rentrer votre prenom !
+            </div>
+    
+            <label for="name">Prénom</label>
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              placeholder="Prénom..."
+            />
+    
+            <div class="hide col" id="lname">
+              Veuillez rentrer votre nom !
+            </div>
+    
+            <label for="genre">Sexe</label>
+            <select id="sexe" name="sexe">
+              <option value="" disabled selected value id="none" hidden>---------------</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+              <option value="autres">Autres</option>
+            </select>
+
+            <label for="mail">Adresse mail</label>
+            <input
+              type="text"
+              id="mail"
+              name="mail"
+              placeholder="Adresse mail..."
+            />
+    
+            <div class="hide col" id="imail">
+              Veuillez rentrer votre mail !
+            </div>
+    
+            <label for="phone">Numéro de télephone</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}">
+    
+            <label for="spec">Spécialité souhaitée</label>
+            <select id="spec" name="spec">
+              <option value="" disabled selected value id="none" hidden>---------------</option>
+              <option value="dev">Dev</option>
+              <option value="cg">CG</option>
+              <option value="cm">CM</option>
+              <option value="market">Market</option>
+            </select>
+
+            <label for="loc">Adresse</label>
+            <input
+              type="text"
+              id="loc"
+              name="loc"
+              placeholder="Adresse"
+            />
+    
+            <label for="town">Ville</label>
+            <input
+              type="text"
+              id="town"
+              name="town"
+              placeholder="ville..."
+            />
+
+            <label for="lvl">Niveau d'étude</label>
+            <select id="lvl" name="lvl">
+              <option value="" disabled selected value id="none" hidden>---------------</option>
+              <option value="bac">Bac</option>
+              <option value="bts">BTS/DUT</option>
+              <option value="license">License</option>
+              <option value="master">Master</option>
+              <option value="doc">doctorat</option>
+            </select>
+
+            <label for="alt">Alternance?</label>
+            <select id="alt" name="alt">
+              <option value="" disabled selected value id="none" hidden>---------------</option>
+              <option value="oui">Oui</option>
+              <option value="non">Non</option>
+            </select>
+
+            <input type="submit" value="Submit" />
+          </form>
+</body>
+</html>

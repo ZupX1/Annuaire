@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100&display=swap');
+
+body{
+    padding:0;
+    margin:0;
+    font-family: 'Outfit', sans-serif;
+    background-color: #383434;
+    font-weight: 400;
+}
+
+nav{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #6A3112;
+}
+
+
+nav .onglets{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 100px;
+
+}
+
+nav .onglets a{
+    text-decoration: none;
+    color: white;
+    margin-right: 10vw;
+    font-size: 25px;
+
+}
+
+nav a,
+nav a:after,
+nav a:before {
+  transition: all .5s;
+}
+
+nav.ong a{
+  position: relative;
+}
+nav.ong a:after{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-bottom: -10px;
+  width: 0%;
+  content: '.';
+  color: transparent;
+  background: #ffffff;
+  height: 1px;
+}
+nav.ong a:hover:after {
+  width: 100%;
+}
+
+nav.fill a {
+    transition: all 2s;
+  }
+
+/* form contact */
+
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: none;
+  }
+
+  input[type=tel], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: none;
+  }
+  
+  input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  .container {
+    margin: auto;
+    margin-top: 6.5vh;
+    margin-bottom: 11vh;
+    max-width: 40%;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    color: #FF6600;
+  }
+
+  .hide{
+    display: none;
+  }
+
+  .col{
+    text-align: center;
+    color: red;
+    font-weight: 800;
+  }
+
+  /*gestion*/
+
+  #admin{
+    background-color: #352015;
+    color: white;
+    display:flex;
+    flex-direction: column;
+ flex-wrap: wrap;
+ max-width: 100%;
+ margin: auto;
+}
+
+#admin h1{
+    color: #FF6600;
+    text-align: center;
+    margin-bottom: 10vh;
+}
+
+#admin a{
+    text-decoration: none;
+    color: #FF6600;
+}
+
+#admin #delete{
+    text-align: center;
+}
+
+#admin td{
+    word-break: break-all;
+    max-width: 14vw;
+    line-height: 20px;
+}
+
+#admin #logoutbutton{
+    text-align: center;
+    margin-top: 10vh;
+}
+
+#admin table{
+    max-width: 90%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#admin .ong a{
+    color:#ffffff;
+}
+
+.delete{
+    background-color: rgb(236, 79, 79) !important;
+}
