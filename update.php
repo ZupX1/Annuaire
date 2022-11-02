@@ -1,171 +1,59 @@
 <?php
-/* Inclure le fichier */
-require_once "config.php";
- 
-/* Definir les variables */
-$nom = $ecole = $age = "";
-$name_err = $ecole_err = $age_err = "";
- 
-/* verifier la valeur id dans le post pour la mise à jour */
-if(isset($_POST["id"]) && !empty($_POST["id"])){
-    /* recuperation du champ caché */
-    $id = $_POST["id"];
-    
-    /* Validate name */
-    $input_name = trim($_POST["nom"]);
-    if(empty($input_name)){
-        $name_err = "Veillez entrez un nom.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Veillez entrez a valid name.";
-    } else{
-        $nom = $input_name;
-    }
-    
-    /* Validate ecole */
-    $input_ecole = trim($_POST["ecole"]);
-    if(empty($input_ecole)){
-        $ecole_err = "Veillez entrez une ecole.";     
-    } else{
-        $ecole = $input_ecole;
-    }
-    
-    /* Validate age */
-    $input_age = trim($_POST["age"]);
-    if(empty($input_age)){
-        $age_err = "Veillez entrez l'age.";     
-    } elseif(!ctype_digit($input_age)){
-        $age_err = "Veillez entrez une valeur positive.";
-    } else{
-        $age = $input_age;
-    }
-    
-    /* verifier les erreurs avant modification */
-    if(empty($name_err) && empty($ecole_err) && empty($age_err)){
-        
-        $sql = "UPDATE students SET nom=?, ecole=?, age=? WHERE id=?";
-         
-        if($stmt = mysqli_prepare($link, $sql)){
-            
-            mysqli_stmt_bind_param($stmt, "sssi", $param_nom, $param_ecole, $param_age, $param_id);
-            
-           
-            $param_nom = $nom;
-            $param_ecole = $ecole;
-            $param_age = $age;
-            $param_id = $id;
-            
-            
-            if(mysqli_stmt_execute($stmt)){
-                /* enregistremnt modifié, retourne */
-                header("location: index.php");
-                exit();
-            } else{
-                echo "Oops! une erreur est survenue.";
-            }
-        }
-         
-        
-        mysqli_stmt_close($stmt);
-    }
-    
-    
-    mysqli_close($link);
-} else{
-    /* si il existe un paramettre id */
-    if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
-        
-        $id =  trim($_GET["id"]);
-        
-       
-        $sql = "SELECT * FROM students WHERE id = ?";
+include 'db.php';
 
-
-        if($stmt = mysqli_prepare($link, $sql)){
-            
-            mysqli_stmt_bind_param($stmt, "i", $param_id);
-            
-            
-            $param_id = $id;
-            
-            
-            if(mysqli_stmt_execute($stmt)){
-                $result = mysqli_stmt_get_result($stmt);
-    
-                if(mysqli_num_rows($result) == 1){
-                    /* recupere l'enregistremnt */
-                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-                    
-                    /* recupere les champs */
-                    $nom = $row["nom"];
-                    $ecole = $row["ecole"];
-                    $age = $row["age"];
-                } else{
-                    
-                    header("location: error.php");
-                    exit();
-                }
-                
-            } else{
-                echo "Oops! une erreur est survenue.";
-            }
-        }
-        
-        /* Close statement */
-        mysqli_stmt_close($stmt);
-        
-        /* Close connection */
-        mysqli_close($link);
-    }  else{
-        /* pas de id parametter valid, retourne erreur */
-        header("location: error.php");
-        exit();
+if (isset($_GET['id'])) {
+    if (!empty($_POST)) {
+        // This part is similar to the create.php, but instead we update a record and not insert
+        $id = isset($_POST['id_eleve']) ? $_POST['id_eleve'] : NULL;
+        $lastname = isset($_POST['nom_eleve']) ? $_POST['nom_eleve'] : '';
+        $name = isset($_POST['prenom_eleve']) ? $_POST['prenom_eleve'] : '';
+        $sexe = isset($_POST['sexe_eleve']) ? $_POST['sexe_eleve'] : '';
+        $mail = isset($_POST['mail_eleve']) ? $_POST['mail_eleve'] : '';
+        $tel = isset($_POST['tel_eleve']) ? $_POST['tel_eleve'] : '';
+        $special = isset($_POST['specialite_eleve']) ? $_POST['specialite_eleve'] : '';
+        $loc = isset($_POST['adresse_eleve']) ? $_POST['adresse_eleve'] : '';
+        $town = isset($_POST['ville_eleve']) ? $_POST['ville_eleve'] : '';
+        $etu = isset($_POST['etude_eleve']) ? $_POST['etude_eleve'] : '';
+        $alt = isset($_POST['altern_eleve']) ? $_POST['altern_eleve'] : '';
+        // Update the record
+        $stmt = $pdo->prepare('UPDATE eleve SET id_eleve = ?, nom_eleve = ?, prenom_eleve = ?, sexe_eleve = ?, mail_eleve = ?, tel_eleve = ?, specialite_eleve = ?, adresse_eleve = ?, ville_eleve = ?, etdue_eleve = ?, altern_eleve = ? WHERE id = ?');
+        $stmt->execute([$id, $lastname, $name, $sexe, $mail, $tel, $special, $loc, $town, $etu, $alt, $_GET['id']]);
+        $msg = 'Updated Successfully!';
     }
+    // Get the contact from the contacts table
+    $stmt = $newBD->prepare('SELECT * FROM eleve WHERE id = ?');
+    $stmt->execute([$_GET['id']]);
+    $contact = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$contact) {
+        exit('Contact doesn\'t exist with that ID!');
+    }
+} else {
+    exit('No ID specified!');
 }
 ?>
- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Modifier l'enregistremnt</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <style>
-        .wrapper{
-            width: 700px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="mt-5">Mise à jour de l'enregistremnt</h2>
-                    <p>Modifier les champs et enregistrer</p>
-                    <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-                        <div class="form-group">
-                            <label>Nom</label>
-                            <input type="text" name="nom" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $nom; ?>">
-                            <span class="invalid-feedback"><?php echo $name_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Ecole</label>
-                            <textarea name="ecole" class="form-control <?php echo (!empty($ecole_err)) ? 'is-invalid' : ''; ?>"><?php echo $ecole; ?></textarea>
-                            <span class="invalid-feedback"><?php echo $ecole_err;?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input type="text" name="age" class="form-control <?php echo (!empty($age_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $age; ?>">
-                            <span class="invalid-feedback"><?php echo $age_err;?></span>
-                        </div>
-                        <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                        <input type="submit" class="btn btn-primary" value="Enregistrer">
-                        <a href="index.php" class="btn btn-secondary ml-2">Annuler</a>
-                    </form>
-                </div>
-            </div>        
-        </div>
-    </div>
-</body>
-</html>
+
+
+
+
+
+<div class="content update">
+	<h2>Update Contact #<?=$contact['id_eleve']?></h2>
+    <form action="update.php?id=<?=$contact['id']?>" method="post">
+        <label for="id">ID</label>
+        <label for="name">Name</label>
+        <input type="text" name="id" placeholder="1" value="<?=$contact['id']?>" id="id">
+        <input type="text" name="name" placeholder="John Doe" value="<?=$contact['name']?>" id="name">
+        <label for="email">Email</label>
+        <label for="phone">Phone</label>
+        <input type="text" name="email" placeholder="johndoe@example.com" value="<?=$contact['email']?>" id="email">
+        <input type="text" name="phone" placeholder="2025550143" value="<?=$contact['phone']?>" id="phone">
+        <label for="title">Title</label>
+        <label for="created">Created</label>
+        <input type="text" name="title" placeholder="Employee" value="<?=$contact['title']?>" id="title">
+        <input type="datetime-local" name="created" value="<?=date('Y-m-d\TH:i', strtotime($contact['created']))?>" id="created">
+        <input type="submit" value="Update">
+    </form>
+    <?php if ($msg): ?>
+    <p><?=$msg?></p>
+    <?php endif; ?>
+</div>

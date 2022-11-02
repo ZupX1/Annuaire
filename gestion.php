@@ -13,6 +13,12 @@
 <body id="admin">
     
 <h1 class=h1>Gestion des commandes</h1>
+
+<form action="gestion.php" method="post">
+    <input type="text" name="key">
+    <input type="submit" value="Submit" name="submit">
+
+
 <table>
     <tr>
         <td scope="row"><strong>#</strong></td>
@@ -26,11 +32,33 @@
         <td><strong>ville</strong></td>
         <td><strong>lvl</strong></td>
         <td><strong>alt</strong></td>
+        <td><strong>actions</strong></td>
     </tr>
 
 <?php
 include 'db.php';
 
+if($_POST['submit']){
+    $key = $_POST['key'];
+    $query = $newBD ->prepare('SELECT * FROM eleve WHERE prenom_eleve LIKE :keyword OR nom_eleve LIKE :keyword ORDER BY prenom_eleve');
+    $query->bindValue(':keyword' , '%'.$key.'%', PDO::PARAM_STR);
+    $query->execute();
+    $result = $query->fetchAll();
+    $rows = $query->rowCount();
+}
+?>
+    <div class="container">
+        <?php
+            if ($rows!= 0) {
+                foreach($result as $r){
+                    echo ''.$r['prenom_eleve'].''.$r['nom_eleve'].'';
+                }
+            } else {
+                echo "no results found";
+            }
+        ?>
+    </div>
+<?php
 try {
     $query = $newBD->query('SELECT * FROM eleve');
     while($row = $query->fetch()){
@@ -42,22 +70,7 @@ try {
             $newBD->prepare($datasupp)->execute(); 
             header("Location:gestion.php");
         }
-
-        if(isset($_GET['id_valid'])){
-            $idis=$_GET['id_valid'];
-            $dataup="UPDATE commande SET valide=1 WHERE id = $idis";
-            $dbh->prepare($dataup)->execute(); 
-            header("Location:gestion.php");
-        } 
-        
-        if(isset($_GET['id_annul'])){
-            $idis=$_GET['id_annul'];
-            $dataup="UPDATE commande SET valide=0 WHERE id = $idis";
-            $dbh->prepare($dataup)->execute(); 
-            header("Location:gestion.php");
-        }
-
-        
+    
         $id = $row['id_eleve'];
         $lastname = $row['nom_eleve'];
         $name = $row['prenom_eleve'];
@@ -81,6 +94,7 @@ try {
         <td>$town</td>
         <td>$etu</td>
         <td>$alt</td>";
+        
         // if ($valid == 0) {
         //    echo "<td>Non<a href='gestion.php?id_valid=".$id."' id='update'>&nbsp&nbsp&nbspCliquez pour valider</a></td>";
         // }
@@ -88,7 +102,8 @@ try {
         // else {
         //     echo "<td>Oui<a href='gestion.php?id_annul=".$id."' id='update'>&nbsp&nbsp&nbspCliquez pour annuler</a></td>";
         // }
-        echo "<td><a href='gestion.php?id_supp=".$id."' id='delete'>Supprimer</a></td>
+        echo "<td><a href='gestion.php?id_supp=".$id."' id='delete'>Supprimer</a></td>";
+        echo "<td><a href='update.php?id=".$id."'>Edit</a></td>
         </tr>";
     }
 
