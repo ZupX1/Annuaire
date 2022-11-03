@@ -151,7 +151,7 @@ input[type=text], select, textarea {
 #admin td{
     word-break: break-all;
     max-width: 14vw;
-    line-height: 20px;
+    line-height: 30px;
 }
 
 #admin #logoutbutton{
@@ -160,9 +160,9 @@ input[type=text], select, textarea {
 }
 
 #admin table{
-    max-width: 90%;
-    margin-left: 10%;
-    margin-right: 10%;
+    max-width: 95%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 #admin .ong a{

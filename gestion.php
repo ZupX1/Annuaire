@@ -3,6 +3,9 @@ include 'db.php';
 include 'delete.php';
 include 'update.php';
 include 'tri.php';
+include 'objet.php';
+
+$eleves = AllEleve();
 
 ?>
 
@@ -12,15 +15,13 @@ include 'tri.php';
 <link rel="stylesheet" href="main.css">
 <nav class="ong">
         <div class="onglets">
-            <a href="index.html">Accueil</a>
-            <a href="form.html">form</a>
-            <a href="gestion.php">Voir les commandes</a>
-            <a href="add.php">Ajouter/Supprimer des produits</a>
+            <a href="form.html">Formulaire d'inscription</a>
+            <a href="gestion.php">Voir les inscriptions</a>
           </div>
       </nav>
 <body id="admin">
     
-<h1 class=h1>Gestion des commandes</h1>
+<h1 class="h1">Gestion des inscriptions</h1>
 
 
 <table>
@@ -40,36 +41,21 @@ include 'tri.php';
     </tr>
 
 <?php
-
-try {
-    $query = $newBD->query('SELECT * FROM eleve');
-    while($row = $query->fetch()){
-        $row = array_map("utf8_encode", $row);
-    
-        $id = $row['id_eleve'];
-        $lastname = $row['nom_eleve'];
-        $name = $row['prenom_eleve'];
-        $sexe = $row['sexe_eleve'];
-        $mail = $row['mail_eleve'];
-        $tel = $row['tel_eleve'];
-        $special = $row['specialite_eleve'];
-        $loc = $row['adresse_eleve'];
-        $town = $row['ville_eleve'];
-        $etu = $row['etude_eleve'];
-        $alt = $row['altern_eleve'];
-        echo "<tr> 
-        <td scope='row'>$id</td>
-        <td>$lastname</td>
-        <td>$name</td>
-        <td>$sexe</td>
-        <td>$mail</td>
-        <td>$tel</td>
-        <td>$special</td>
-        <td>$loc</td>
-        <td>$town</td>
-        <td>$etu</td>";
-        
-        if ($alt == "Non") {
+foreach ($eleves as $eleve) {
+?>      <tr> 
+            <td scope='row'><?= $eleve->id?></td>
+            <td><?= $eleve->lastname?></td>
+            <td><?= $eleve->name?></td>
+            <td><?= $eleve->sexe?></td>
+            <td><?= $eleve->mail?></td>
+            <td><?= $eleve->tel?></td>
+            <td><?= $eleve->special?></td>
+            <td><?= $eleve->loc?></td>
+            <td><?= $eleve->town?></td>
+            <td><?= $eleve->etu?></td>
+        </tr>
+        <?php }?>
+        <!-- if ($alt == "Non") {
            echo "<td><a href='gestion.php?id_alto=".$id."' id='update'>&nbsp&nbsp&nbsp$alt</a></td>";
         }
 
@@ -77,16 +63,7 @@ try {
             echo "<td><a href='gestion.php?id_altn=".$id."' id='update'>&nbsp&nbsp&nbsp$alt</a></td>";
         }
         echo "<td><a href='gestion.php?id_supp=".$id."' id='delete'>Supprimer</a></td>";
-        // echo "<td><a href='update.php?id=".$id."'>Edit</a></td>
-        // </tr>";
-    }
-
-    $dbh = null;
-} catch (PDOException $e) {
-    print "Erreur !: " . $e->getMessage() . "<br/>";
-    die();
-}
-
-?>
+        echo "<td><a href='edit.php?id=".$id."'>Edit</a></td> -->
+        </tr>
 </table>
 </body>

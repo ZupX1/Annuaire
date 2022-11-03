@@ -7,6 +7,7 @@ $user='root';
 $pwd='';
 
 
+
 try{
     $newBD= new PDO("mysql:host=$host;port=$port;dbname=$dbname",$user,$pwd);
 } catch(PDOException $e){

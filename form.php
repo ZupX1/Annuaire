@@ -1,6 +1,7 @@
 <?php
 
 include 'db.php';
+include 'objet.php';
 
 if (isset($_POST["nom"])&&
         isset($_POST["prenom"])&&
@@ -12,18 +13,21 @@ if (isset($_POST["nom"])&&
         isset($_POST["town"])&&
         isset($_POST["lvl"])&&
         isset($_POST["alt"])){
-            $insertion=$newBD->prepare("INSERT INTO eleve VALUES(NULL,:nom,:prenom,:sexe,:mail,:phone,:spec,:loc,:town,:lvl,:alt)");
-            $insertion->bindValue(":nom",$_POST["nom"]);
-            $insertion->bindValue(":prenom",$_POST["prenom"]);
-            $insertion->bindValue(":sexe",$_POST["sexe"]);
-            $insertion->bindValue(":mail",$_POST["mail"]);
-            $insertion->bindValue(":phone",$_POST["phone"]);
-            $insertion->bindValue(":spec",$_POST["spec"]);
-            $insertion->bindValue(":loc",$_POST["loc"]);
-            $insertion->bindValue(":town",$_POST["town"]);
-            $insertion->bindValue(":lvl",$_POST["lvl"]);
-            $insertion->bindValue(":alt",$_POST["alt"]);
-            $verification= $insertion->execute();
+            
+            $nouvoEleve = new Eleve();
+
+            $nouvoEleve->lastname = $_POST['nom'];
+            $nouvoEleve->name = $_POST['prenom'];
+            $nouvoEleve->sexe = $_POST['sexe'];
+            $nouvoEleve->mail = $_POST['mail'];
+            $nouvoEleve->tel = $_POST['phone'];
+            $nouvoEleve->special = $_POST['spec'];
+            $nouvoEleve->loc = $_POST['loc'];
+            $nouvoEleve->town = $_POST['town'];
+            $nouvoEleve->etu = $_POST['lvl'];
+            $nouvoEleve->alt = $_POST['alt'];
+
+            $verification= createEleve($nouvoEleve);
             if ($verification){
                 echo"réussite";
             }else{
