@@ -27,7 +27,7 @@ $eleves = AllEleve();
 <table>
     <tr>
         <td scope="row"><strong>#</strong></td>
-        <td><a href="?term=nom_eleve&order=<?php echo get_order()?>"><strong>Nom</strong></a></td>
+        <td><strong>Nom</strong></td>
         <td><strong>Prénom</strong></td>
         <td><strong>Sexe</strong></td>
         <td><strong>Mail</strong></td>
@@ -53,6 +53,8 @@ foreach ($eleves as $eleve) {
             <td><?= $eleve->loc?></td>
             <td><?= $eleve->town?></td>
             <td><?= $eleve->etu?></td>
+            <td><?= $eleve->alt?></td>
+            <td><a href="edit-page.php?id_eleve=<?= $eleve->id ?>">Modifier</a></td>
         </tr>
         <?php }?>
         <!-- if ($alt == "Non") {

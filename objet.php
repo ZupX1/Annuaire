@@ -4,16 +4,16 @@ include 'db.php';
 
 class Eleve {
     public $id;
-    public $nom;
-    public $prenom;
+    public $lastname;
+    public $name;
     public $sexe;
     public $mail;
     public $tel;
-    public $specialite;
-    public $adresse;
-    public $ville;
-    public $etude;
-    public $alternance;
+    public $special;
+    public $loc;
+    public $town;
+    public $etu;
+    public $alt;
   
 }
 
@@ -42,6 +42,32 @@ function AllEleve(){
 
     return $eleves;
 }
+
+function findEleve($eleveId)
+{
+    $dbConnection = newBD();
+    $monEleve = new Eleve();
+
+    $request = $dbConnection->prepare("SELECT * FROM eleve WHERE id = ?");
+
+    $request->execute([$eleveId]);
+    $row = $request->fetch();
+
+    $monEleve->id = $row['id_eleve'];
+    $monEleve->lastname = $row['nom_eleve'];
+    $monEleve->name = $row['prenom_eleve'];
+    $monEleve->sexe = $row['sexe_eleve'];
+    $monEleve->mail = $row['mail_eleve'];
+    $monEleve->tel = $row['tel_eleve'];
+    $monEleve->special = $row['specialite_eleve'];
+    $monEleve->loc = $row['adresse_eleve'];
+    $monEleve->town = $row['ville_eleve'];
+    $monEleve->etu = $row['etude_eleve'];
+    $monEleve->alt = $row['altern_eleve'];
+
+    return $monEleve;
+}
+
 
 function createEleve($eleve)
 {
