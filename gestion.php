@@ -1,3 +1,11 @@
+<?php
+include 'db.php';
+include 'delete.php';
+include 'update.php';
+include 'tri.php';
+
+?>
+
 <title>Dashboard Admin</title>
 <script src="https://kit.fontawesome.com/ab98ebb4c8.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
@@ -14,62 +22,29 @@
     
 <h1 class=h1>Gestion des commandes</h1>
 
-<form action="gestion.php" method="post">
-    <input type="text" name="key">
-    <input type="submit" value="Submit" name="submit">
-
 
 <table>
     <tr>
         <td scope="row"><strong>#</strong></td>
-        <td><strong>Nom</strong></td>
+        <td><a href="?term=nom_eleve&order=<?php echo get_order()?>"><strong>Nom</strong></a></td>
         <td><strong>Prénom</strong></td>
         <td><strong>Sexe</strong></td>
         <td><strong>Mail</strong></td>
-        <td><strong>tel</strong></td>
-        <td><strong>specialité</strong></td> 
-        <td><strong>adresse</strong></td> 
-        <td><strong>ville</strong></td>
-        <td><strong>lvl</strong></td>
-        <td><strong>alt</strong></td>
-        <td><strong>actions</strong></td>
+        <td><strong>Téléphone</strong></td>
+        <td><strong>Specialité</strong></td> 
+        <td><strong>Adresse</strong></td> 
+        <td><strong>Ville</strong></td>
+        <td><strong>Niveau d'étude</strong></td>
+        <td><strong>Alternance ?</strong></td>
+        <td><strong>Actions</strong></td>
     </tr>
 
 <?php
-include 'db.php';
 
-if($_POST['submit']){
-    $key = $_POST['key'];
-    $query = $newBD ->prepare('SELECT * FROM eleve WHERE prenom_eleve LIKE :keyword OR nom_eleve LIKE :keyword ORDER BY prenom_eleve');
-    $query->bindValue(':keyword' , '%'.$key.'%', PDO::PARAM_STR);
-    $query->execute();
-    $result = $query->fetchAll();
-    $rows = $query->rowCount();
-}
-?>
-    <div class="container">
-        <?php
-            if ($rows!= 0) {
-                foreach($result as $r){
-                    echo ''.$r['prenom_eleve'].''.$r['nom_eleve'].'';
-                }
-            } else {
-                echo "no results found";
-            }
-        ?>
-    </div>
-<?php
 try {
     $query = $newBD->query('SELECT * FROM eleve');
     while($row = $query->fetch()){
         $row = array_map("utf8_encode", $row);
-
-        if(isset($_GET['id_supp'])){
-            $idi=$_GET['id_supp'];
-            $datasupp="DELETE FROM eleve WHERE id_eleve = $idi";
-            $newBD->prepare($datasupp)->execute(); 
-            header("Location:gestion.php");
-        }
     
         $id = $row['id_eleve'];
         $lastname = $row['nom_eleve'];
@@ -92,19 +67,18 @@ try {
         <td>$special</td>
         <td>$loc</td>
         <td>$town</td>
-        <td>$etu</td>
-        <td>$alt</td>";
+        <td>$etu</td>";
         
-        // if ($valid == 0) {
-        //    echo "<td>Non<a href='gestion.php?id_valid=".$id."' id='update'>&nbsp&nbsp&nbspCliquez pour valider</a></td>";
-        // }
+        if ($alt == "Non") {
+           echo "<td><a href='gestion.php?id_alto=".$id."' id='update'>&nbsp&nbsp&nbsp$alt</a></td>";
+        }
 
-        // else {
-        //     echo "<td>Oui<a href='gestion.php?id_annul=".$id."' id='update'>&nbsp&nbsp&nbspCliquez pour annuler</a></td>";
-        // }
+        else {
+            echo "<td><a href='gestion.php?id_altn=".$id."' id='update'>&nbsp&nbsp&nbsp$alt</a></td>";
+        }
         echo "<td><a href='gestion.php?id_supp=".$id."' id='delete'>Supprimer</a></td>";
-        echo "<td><a href='update.php?id=".$id."'>Edit</a></td>
-        </tr>";
+        // echo "<td><a href='update.php?id=".$id."'>Edit</a></td>
+        // </tr>";
     }
 
     $dbh = null;
