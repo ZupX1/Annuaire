@@ -20,7 +20,7 @@ $eleve = findEleve($_GET['id_eleve']);
         </div>
       </nav>
         <div class="container">
-          <form method="post" action="edit.php?eleve_id=<?= $eleve->id ?>">
+          <form method="post" action="edit.php?id_eleve=<?= $eleve->id ?>">
             <label for="name">Nom</label>
             <input
               type="text"

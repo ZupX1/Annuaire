@@ -48,7 +48,7 @@ function findEleve($eleveId)
     $dbConnection = newBD();
     $monEleve = new Eleve();
 
-    $request = $dbConnection->prepare("SELECT * FROM eleve WHERE id = ?");
+    $request = $dbConnection->prepare("SELECT * FROM eleve WHERE id_eleve = ?");
 
     $request->execute([$eleveId]);
     $row = $request->fetch();
@@ -92,7 +92,7 @@ function EditEleve($eleve)
 {
     $dbConnection = newBD();
 
-    $request = $dbConnection->prepare("UPDATE eleve SET nom_eleve=?, prenom_eleve=?, sexe_eleve=?, mail_eleve=?, tel_eleve=?, specialite_eleve=?, adresse_eleve=?, ville_eleve=?, etude_eleve=?, altern_eleve=? WHERE id=?");
+    $request = $dbConnection->prepare("UPDATE eleve SET nom_eleve=?, prenom_eleve=?, sexe_eleve=?, mail_eleve=?, tel_eleve=?, specialite_eleve=?, adresse_eleve=?, ville_eleve=?, etude_eleve=?, altern_eleve=? WHERE id_eleve=?");
     return $request->execute([
         $eleve->lastname,
         $eleve->name,
