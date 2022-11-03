@@ -1,8 +1,5 @@
 <?php
 include 'db.php';
-include 'delete.php';
-include 'update.php';
-include 'tri.php';
 include 'objet.php';
 
 $eleves = AllEleve();
