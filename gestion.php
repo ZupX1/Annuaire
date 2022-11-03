@@ -51,7 +51,10 @@ foreach ($eleves as $eleve) {
             <td><?= $eleve->town?></td>
             <td><?= $eleve->etu?></td>
             <td><?= $eleve->alt?></td>
-            <td><a href="edit-page.php?id_eleve=<?= $eleve->id ?>">Modifier</a></td>
+        <td>
+            <a href="edit-page.php?id_eleve=<?= $eleve->id ?>">Modifier</a>
+            <a href="delete.php?id_eleve=<?= $eleve->id ?>">Supprimer</a>
+        </td>
         </tr>
         <?php }?>
         <!-- if ($alt == "Non") {

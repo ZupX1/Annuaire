@@ -108,6 +108,13 @@ function EditEleve($eleve)
     ]);
 }
 
+function deleteEleve($eleveId){
+    $dbConnection = newBD();
+
+    $request = $dbConnection->prepare("DELETE FROM eleve WHERE id_eleve = ?");
+    return $request->execute([$eleveId]);
+}
+
 function newBD(){
     $host='localhost';
     $port=3306;
