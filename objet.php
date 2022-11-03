@@ -92,7 +92,7 @@ function EditEleve($eleve)
 {
     $dbConnection = newBD();
 
-    $request = $dbConnection->prepare("UPDATE eleve SET nom_eleve =?, prenom_eleve =?, sexe_eleve =?, mail_eleve =?, tel_eleve =?, specialite_eleve =?, adresse_eleve =?, ville_eleve =?, etude_eleve =?, altern_eleve =? WHERE id = ?");
+    $request = $dbConnection->prepare("UPDATE eleve SET nom_eleve=?, prenom_eleve=?, sexe_eleve=?, mail_eleve=?, tel_eleve=?, specialite_eleve=?, adresse_eleve=?, ville_eleve=?, etude_eleve=?, altern_eleve=? WHERE id=?");
     return $request->execute([
         $eleve->lastname,
         $eleve->name,
